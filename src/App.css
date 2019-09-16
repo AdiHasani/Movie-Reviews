@@ -84,6 +84,11 @@ input[type='text'] {
   border-radius: .4rem;
 }
 
+input[type='text']:focus {
+  outline: none;
+  border-color: var(--primary-color);
+}
+
 /* Cards */
 .card {
   padding: 1rem;

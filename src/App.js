@@ -26,7 +26,12 @@ class App extends Component {
     const res = await axios.get(
       `https://api.nytimes.com/svc/movies/v2//reviews/search.json?query=${text}&api-key=${process.env.REACT_APP_NYT_API_KEY}`
     );
+
     this.setState({ movies: res.data.results, loading: false });
+
+    if (res.data.results.length === 0) {
+      this.snackbar('No results found', 'success', 4000);
+    }
   };
 
   snackbar = (message, type, ms = 3000) => {
