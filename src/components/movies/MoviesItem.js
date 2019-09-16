@@ -1,27 +1,19 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const MoviesItem = props => {
-  const {
-    display_title,
-    headline,
-    summary_short,
-    multimedia,
-    link
-  } = props.movie;
+  const { display_title, multimedia } = props.movie;
   return (
-    <div className="card">
-      <img
-        src={multimedia ? multimedia.src : 'no-img.png'}
-        alt="IMG!"
-        className="card-img"
-      />
-      <h2 className="movie-title text-center mb-1">{display_title}</h2>
-      <h3>{headline}</h3>
-      <p>{summary_short}</p>
-      <a className="btn" href={link.url}>
-        {link.suggested_link_text}
-      </a>
-    </div>
+    <Link to={`/movie/${display_title}`}>
+      <div className="card text-center">
+        <img
+          src={multimedia ? multimedia.src : 'no-img.png'}
+          alt="Scene from movie"
+          className="card-img"
+        />
+        <h2 className="movie-title mb-1">{display_title}</h2>
+      </div>
+    </Link>
   );
 };
 

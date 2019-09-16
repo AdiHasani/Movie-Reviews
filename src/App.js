@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Navbar from './components/layout/Navbar';
 import About from './components/pages/About';
 import Movies from './components/movies/Movies';
+import MovieReview from './components/movies/MovieReview';
 import Search from './components/movies/Search';
 import Snackbar from './components/layout/Snackbar';
 import axios from 'axios';
@@ -11,17 +12,18 @@ import './App.css';
 class App extends Component {
   state = {
     movies: [],
+    movie: {},
     loading: false,
     alert: null
   };
 
   async componentDidMount() {
     this.setState({ loading: true });
-    console.log('.-.-.-.-.-.-.-.-.-.-.-.-.-');
+
     const res = await axios.get(
       `https://api.nytimes.com/svc/movies/v2/reviews/{type}.json?api-key=${process.env.REACT_APP_NYT_API_KEY}`
     );
-
+    console.log(res.data.results);
     this.setState({ movies: res.data.results, loading: false });
   }
 
@@ -39,12 +41,22 @@ class App extends Component {
     }
   };
 
+  getMovie = title => {
+    console.log(title);
+    let movie = this.state.movies.filter(
+      movie => movie.display_title === title
+    );
+    this.setState({ movie: movie[0] });
+    console.log(movie[0]);
+  };
+
   snackbar = (message, type, ms = 3000) => {
     this.setState({ alert: { message, type } });
     setTimeout(() => this.setState({ alert: null }), ms);
   };
 
   render() {
+    const { movies, movie, alert, loading } = this.state;
     return (
       <Router>
         <Fragment>
@@ -60,16 +72,24 @@ class App extends Component {
                       searchMovies={this.searchMovies}
                       setAlert={this.snackbar}
                     />
-                    <Movies
-                      loading={this.state.loading}
-                      movies={this.state.movies}
-                    />
+                    <Movies loading={loading} movies={movies} />
                   </Fragment>
                 )}
               />
               <Route exact path="/about" component={About} />
+              <Route
+                exact
+                path="/movie/:title"
+                render={props => (
+                  <MovieReview
+                    {...props}
+                    getMovie={this.getMovie}
+                    movie={movie}
+                  />
+                )}
+              />
             </Switch>
-            <Snackbar alert={this.state.alert} />
+            <Snackbar alert={alert} />
           </div>
         </Fragment>
       </Router>
