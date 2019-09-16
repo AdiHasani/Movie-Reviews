@@ -1,5 +1,9 @@
 import React, { Component, Fragment } from 'react';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route
+} from 'react-router-dom';
 import Navbar from './components/layout/Navbar';
 import About from './components/pages/About';
 import Movies from './components/movies/Movies';
@@ -25,7 +29,7 @@ class App extends Component {
     const res = await axios.get(
       `https://api.nytimes.com/svc/movies/v2/reviews/{type}.json?api-key=${process.env.REACT_APP_NYT_API_KEY}`
     );
-    console.log(res.data.results);
+    
     this.setState({ movies: res.data.results, loading: false });
     sessionStorage.setItem('movies', JSON.stringify(res.data.results));
   }
@@ -55,10 +59,6 @@ class App extends Component {
 
     let movie = movies.filter(movie => movie.display_title === title);
     this.setState({ movie: movie[0] });
-    
-    if (movie.length === 0) {
-      // TODO Redirection to homepage
-    }
   };
 
   snackbar = (message, type, ms = 3000) => {

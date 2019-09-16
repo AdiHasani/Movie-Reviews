@@ -12,7 +12,7 @@ const Movies = ({ movies, loading }) => {
     );
   } else {
     return (
-      <div style={movieStyle}>
+      <div className="grid-4">
         {movies.map((movie, index) => (
           <MovieItem key={`movie${index}`} movie={movie} />
         ))}
@@ -24,12 +24,6 @@ const Movies = ({ movies, loading }) => {
 Movies.propTypes = {
   movies: PropTypes.array.isRequired,
   loading: PropTypes.bool.isRequired
-};
-
-const movieStyle = {
-  display: 'grid',
-  gridTemplateColumns: 'repeat(3, 1fr)',
-  gridGap: '2rem'
 };
 
 export default Movies;
