@@ -11,7 +11,11 @@ const MoviesItem = props => {
   console.log(props);
   return (
     <div className="card">
-      <img src={multimedia.src} alt="IMG!" className="card-img" />
+      <img
+        src={multimedia ? multimedia.src : 'no-img.png'}
+        alt="IMG!"
+        className="card-img"
+      />
       <h2 className="movie-title text-center mb-1">{display_title}</h2>
       <h3>{headline}</h3>
       <p>{summary_short}</p>
