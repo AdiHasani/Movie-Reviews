@@ -13,16 +13,18 @@ class App extends Component {
 
   async componentDidMount() {
     this.setState({ loading: true });
-    console.log(process.env);
     const res = await axios.get(
       `https://api.nytimes.com/svc/movies/v2/reviews/{type}.json?api-key=${process.env.REACT_APP_NYT_API_KEY}`
     );
-    console.log(res.data);
     this.setState({ movies: res.data.results, loading: false });
   }
 
-  searchMovies = text => {
-    console.log('App.js =>', text);
+  searchMovies = async text => {
+    this.setState({ loading: true });
+    const res = await axios.get(
+      `https://api.nytimes.com/svc/movies/v2//reviews/search.json?query=${text}&api-key=${process.env.REACT_APP_NYT_API_KEY}`
+    );
+    this.setState({ movies: res.data.results, loading: false });
   };
 
   render() {
