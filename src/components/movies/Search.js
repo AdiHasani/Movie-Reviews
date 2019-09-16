@@ -7,14 +7,18 @@ export class Search extends Component {
   };
 
   static propTypes = {
-    searchMovies: PropTypes.func.isRequired
+    searchMovies: PropTypes.func.isRequired,
+    setAlert: PropTypes.func.isRequired
   };
 
   onSubmit = event => {
     event.preventDefault();
-    this.props.searchMovies(this.state.text);
-    this.setState({ text: '' });
-    console.log(this.state.text);
+    if (this.state.text === '') {
+      this.props.setAlert('Please enter something', 'error');
+    } else {
+      this.props.searchMovies(this.state.text);
+      this.setState({ text: '' });
+    }
   };
 
   onChange = event =>

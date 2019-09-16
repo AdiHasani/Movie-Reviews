@@ -2,13 +2,15 @@ import React, { Component, Fragment } from 'react';
 import Navbar from './components/layout/Navbar';
 import Movies from './components/movies/Movies';
 import Search from './components/movies/Search';
+import Snackbar from './components/layout/Snackbar';
 import axios from 'axios';
 import './App.css';
 
 class App extends Component {
   state = {
     movies: [],
-    loading: false
+    loading: false,
+    alert: null
   };
 
   async componentDidMount() {
@@ -27,13 +29,20 @@ class App extends Component {
     this.setState({ movies: res.data.results, loading: false });
   };
 
+  snackbar = (message, type, ms = 3000) => {
+    this.setState({ alert: { message, type } });
+    setTimeout(() => this.setState({ alert: null }), ms);
+    console.log(this.state.alert);
+  };
+
   render() {
     return (
       <Fragment>
         <Navbar />
         <div className="container">
-          <Search searchMovies={this.searchMovies} />
+          <Search searchMovies={this.searchMovies} setAlert={this.snackbar} />
           <Movies loading={this.state.loading} movies={this.state.movies} />
+          <Snackbar alert={this.state.alert} />
         </div>
       </Fragment>
     );
