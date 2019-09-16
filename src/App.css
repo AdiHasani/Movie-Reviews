@@ -73,11 +73,13 @@ body {
 /* Search Input */
 
 input[type='text'] {
-  display: block;
-  width: 100%;
-  padding: 0.4rem;
-  font-size: 1.2rem;
-  border: 1px solid #ccc;
+  display: inline-block;
+  width: 79%;
+  padding: 0.8rem;
+  font-size: 1.4rem;
+  border: 1px solid var(--border-color);
+  color: var(--red-color);
+  border-radius: .4rem;
 }
 
 /* Cards */
@@ -118,6 +120,20 @@ input[type='text'] {
 
 .btn:focus {
   opacity: 0.8;
+}
+
+.btn-search {
+  padding: .8rem 0;
+  color: var(--white-color);
+  font-size: 1.6rem;
+  text-transform: uppercase;
+  margin-left: .6rem;
+  border-radius: .4rem;
+  background-color: var(--border-color);
+}
+
+.btn-20 {
+  width: 20%;
 }
 
 a {
