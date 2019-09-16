@@ -8,7 +8,6 @@ const MoviesItem = props => {
     multimedia,
     link
   } = props.movie;
-  console.log(props);
   return (
     <div className="card">
       <img
