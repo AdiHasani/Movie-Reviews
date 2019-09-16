@@ -11,7 +11,7 @@ const MoviesItem = props => {
           alt="Scene from movie"
           className="card-img"
         />
-        <h2 className="movie-title mb-1">{display_title}</h2>
+        <h2 className="text-red mb-1">{display_title}</h2>
       </div>
     </Link>
   );

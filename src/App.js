@@ -29,7 +29,7 @@ class App extends Component {
     const res = await axios.get(
       `https://api.nytimes.com/svc/movies/v2/reviews/{type}.json?api-key=${process.env.REACT_APP_NYT_API_KEY}`
     );
-    console.log(res.data.results);
+    
     this.setState({ movies: res.data.results, loading: false });
     sessionStorage.setItem('movies', JSON.stringify(res.data.results));
   }

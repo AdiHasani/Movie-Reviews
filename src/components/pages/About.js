@@ -7,10 +7,10 @@ const About = () => {
       <p>version: 0.1.0</p>
       <p>
         This is a simple movie reviews app based on{' '}
-        <strong>NY Times Developers API</strong>, in the home page it shows the
-        lates 20 movie that are reviewed and also there is search by name
-        functionality that brings back maximum of 20 movies that have in the
-        title your search query.
+        <strong>New York Times Developers API</strong>, in the home page it
+        shows the lates 20 movie that are reviewed and also there is search by
+        name functionality that brings back maximum of 20 movies that includes
+        your search query.
       </p>
     </div>
   );
