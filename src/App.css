@@ -1,5 +1,12 @@
 @import url('https://fonts.googleapis.com/css?family=Lato&display=swap');
 
+:root {
+  --primary-color: #FFBE28;
+  --secondary-color: #073B4C;
+  --white-color: #fafafa;
+  --red-color: #E82828;
+}
+
 *,
 *::before,
 *::after {
@@ -17,6 +24,8 @@ body {
   font-size: 1.5rem;
   line-height: 1.7;
   box-sizing: border-box;
+  background-color: var(--white-color);
+  color: var(--secondary-color);
 }
 
 /* Utilities */
@@ -25,4 +34,22 @@ body {
   margin: auto;
   overflow: hidden;
   padding: 0 2rem;
+}
+
+.bg-primary {
+  background-color: var(--primary-color);
+  color: var(--secondary-color);
+}
+
+/* Navbar */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.7rem 2rem;
+  z-index: 1;
+  width: 100%;
+  opacity: 0.9;
+  margin-bottom: 1rem;
+  box-shadow: 0 0.5rem 2rem rgba(0, 0, 0, .1);
 }
