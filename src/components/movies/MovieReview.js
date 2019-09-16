@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Spinner from '../layout/Spinner';
 
@@ -9,10 +9,14 @@ export class MovieReview extends Component {
   }
 
   static propTypes = {
-    movie: PropTypes.object.isRequired,
+    movie: PropTypes.object,
     getMovie: PropTypes.func.isRequired
   };
   render() {
+    if (!this.props.movie) {
+      return <Redirect to="/" />;
+    }
+
     const {
       display_title,
       critics_pick,
