@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import Spinner from '../layout/Spinner';
 
 export class MovieReview extends Component {
   componentDidMount() {
@@ -22,6 +23,8 @@ export class MovieReview extends Component {
       headline,
       summary_short
     } = this.props.movie;
+    const { loading } = this.props;
+    if (loading) return <Spinner />;
     return (
       <Fragment>
         <Link to="/" className="btn btn-back">
@@ -48,7 +51,12 @@ export class MovieReview extends Component {
             <h5 className="mb-2">edited: {date_updated}</h5>
             <p className="mb-3">{summary_short}</p>
             {link && (
-              <a href={link.url} target="_blank" className="btn btn-more">
+              <a
+                href={link.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn btn-more"
+              >
                 Read more <i className="fas fa-external-link-alt"></i>
               </a>
             )}

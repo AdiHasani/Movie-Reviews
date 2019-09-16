@@ -6,7 +6,9 @@ import Movies from './components/movies/Movies';
 import MovieReview from './components/movies/MovieReview';
 import Search from './components/movies/Search';
 import Snackbar from './components/layout/Snackbar';
+import Notfound from './components/pages/Notfound';
 import axios from 'axios';
+
 import './App.css';
 
 class App extends Component {
@@ -25,6 +27,7 @@ class App extends Component {
     );
     console.log(res.data.results);
     this.setState({ movies: res.data.results, loading: false });
+    sessionStorage.setItem('movies', JSON.stringify(res.data.results));
   }
 
   searchMovies = async text => {
@@ -35,19 +38,27 @@ class App extends Component {
     );
 
     this.setState({ movies: res.data.results, loading: false });
+    sessionStorage.setItem('movies', JSON.stringify(res.data.results));
 
     if (res.data.results.length === 0) {
       this.snackbar('No results found', 'success', 4000);
+      sessionStorage.removeItem('movies');
     }
   };
 
   getMovie = title => {
-    console.log(title);
-    let movie = this.state.movies.filter(
-      movie => movie.display_title === title
-    );
+    let movies = this.state.movies;
+
+    if (sessionStorage.getItem('movies')) {
+      movies = JSON.parse(sessionStorage.getItem('movies'));
+    }
+
+    let movie = movies.filter(movie => movie.display_title === title);
     this.setState({ movie: movie[0] });
-    console.log(movie[0]);
+    
+    if (movie.length === 0) {
+      // TODO Redirection to homepage
+    }
   };
 
   snackbar = (message, type, ms = 3000) => {
@@ -85,9 +96,11 @@ class App extends Component {
                     {...props}
                     getMovie={this.getMovie}
                     movie={movie}
+                    loading={loading}
                   />
                 )}
               />
+              <Route component={Notfound} />
             </Switch>
             <Snackbar alert={alert} />
           </div>
