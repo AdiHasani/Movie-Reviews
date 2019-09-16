@@ -1,26 +1,113 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { Component, Fragment } from 'react';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import Navbar from './components/layout/Navbar';
+import About from './components/pages/About';
+import Movies from './components/movies/Movies';
+import MovieReview from './components/movies/MovieReview';
+import Search from './components/movies/Search';
+import Snackbar from './components/layout/Snackbar';
+import Notfound from './components/pages/Notfound';
+import axios from 'axios';
+
 import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component {
+  state = {
+    movies: [],
+    movie: {},
+    loading: false,
+    alert: null
+  };
+
+  async componentDidMount() {
+    this.setState({ loading: true });
+
+    const res = await axios.get(
+      `https://api.nytimes.com/svc/movies/v2/reviews/{type}.json?api-key=${process.env.REACT_APP_NYT_API_KEY}`
+    );
+    console.log(res.data.results);
+    this.setState({ movies: res.data.results, loading: false });
+    sessionStorage.setItem('movies', JSON.stringify(res.data.results));
+  }
+
+  searchMovies = async text => {
+    this.setState({ loading: true });
+
+    const res = await axios.get(
+      `https://api.nytimes.com/svc/movies/v2//reviews/search.json?query=${text}&api-key=${process.env.REACT_APP_NYT_API_KEY}`
+    );
+
+    this.setState({ movies: res.data.results, loading: false });
+    sessionStorage.setItem('movies', JSON.stringify(res.data.results));
+
+    if (res.data.results.length === 0) {
+      this.snackbar('No results found', 'success', 4000);
+      sessionStorage.removeItem('movies');
+    }
+  };
+
+  getMovie = title => {
+    let movies = this.state.movies;
+
+    if (sessionStorage.getItem('movies')) {
+      movies = JSON.parse(sessionStorage.getItem('movies'));
+    }
+
+    let movie = movies.filter(movie => movie.display_title === title);
+    this.setState({ movie: movie[0] });
+    
+    if (movie.length === 0) {
+      // TODO Redirection to homepage
+    }
+  };
+
+  snackbar = (message, type, ms = 3000) => {
+    this.setState({ alert: { message, type } });
+    setTimeout(() => this.setState({ alert: null }), ms);
+  };
+
+  render() {
+    const { movies, movie, alert, loading } = this.state;
+    return (
+      <Router>
+        <Fragment>
+          <Navbar />
+          <div className="container">
+            <Switch>
+              <Route
+                exact
+                path="/"
+                render={props => (
+                  <Fragment>
+                    <Search
+                      searchMovies={this.searchMovies}
+                      setAlert={this.snackbar}
+                    />
+                    <Movies loading={loading} movies={movies} />
+                  </Fragment>
+                )}
+              />
+              <Route exact path="/about" component={About} />
+              <Route
+                exact
+                path="/movie/:title"
+                render={props => (
+                  <MovieReview
+                    {...props}
+                    getMovie={this.getMovie}
+                    movie={movie}
+                    loading={loading}
+                  />
+                )}
+              />
+              <Route component={Notfound} />
+            </Switch>
+            <Snackbar alert={alert} />
+          </div>
+        </Fragment>
+      </Router>
+    );
+  }
 }
 
 export default App;
