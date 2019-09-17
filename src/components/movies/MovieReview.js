@@ -7,7 +7,10 @@ const MovieReview = ({ match }) => {
   const nyTimesContext = useContext(NyTimesContext);
   const { movie, loading } = nyTimesContext;
 
-  useEffect(() => nyTimesContext.getMovie(match.params.title));
+  useEffect(() => {
+    nyTimesContext.getMovie(match.params.title);
+    // eslint-disable-next-line
+  }, []);
 
   if (!movie) {
     return <Redirect to="/" />;
