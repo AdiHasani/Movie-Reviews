@@ -1,6 +1,10 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import SnackbarContext from '../../context/snackbar/snackbarContext';
 
-const Snackbar = ({ alert }) => {
+const Snackbar = () => {
+  const snackbarContext = useContext(SnackbarContext);
+  const { alert } = snackbarContext;
+
   return (
     alert !== null && (
       <div className={`snackbar snackbar-${alert.type} text-center`}>

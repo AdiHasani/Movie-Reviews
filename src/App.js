@@ -1,113 +1,36 @@
-import React, { Component, Fragment } from 'react';
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route
-} from 'react-router-dom';
+import React, { Fragment } from 'react';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Navbar from './components/layout/Navbar';
+import Home from './components/pages/Home';
 import About from './components/pages/About';
-import Movies from './components/movies/Movies';
 import MovieReview from './components/movies/MovieReview';
-import Search from './components/movies/Search';
-import Snackbar from './components/layout/Snackbar';
 import Notfound from './components/pages/Notfound';
-import axios from 'axios';
-
+import Snackbar from './components/layout/Snackbar';
+import NyTimesState from './context/nytimes/NyTimesState';
+import SnackbarState from './context/snackbar/SnackbarState';
 import './App.css';
 
-class App extends Component {
-  state = {
-    movies: [],
-    movie: {},
-    loading: false,
-    alert: null
-  };
-
-  async componentDidMount() {
-    this.setState({ loading: true });
-
-    const res = await axios.get(
-      `https://api.nytimes.com/svc/movies/v2/reviews/{type}.json?api-key=${process.env.REACT_APP_NYT_API_KEY}`
-    );
-    
-    this.setState({ movies: res.data.results, loading: false });
-    sessionStorage.setItem('movies', JSON.stringify(res.data.results));
-  }
-
-  searchMovies = async text => {
-    this.setState({ loading: true });
-
-    const res = await axios.get(
-      `https://api.nytimes.com/svc/movies/v2//reviews/search.json?query=${text}&api-key=${process.env.REACT_APP_NYT_API_KEY}`
-    );
-
-    this.setState({ movies: res.data.results, loading: false });
-    sessionStorage.setItem('movies', JSON.stringify(res.data.results));
-
-    if (res.data.results.length === 0) {
-      this.snackbar('No results found', 'success', 4000);
-      sessionStorage.removeItem('movies');
-    }
-  };
-
-  getMovie = title => {
-    let movies = this.state.movies;
-
-    if (sessionStorage.getItem('movies')) {
-      movies = JSON.parse(sessionStorage.getItem('movies'));
-    }
-
-    let movie = movies.filter(movie => movie.display_title === title);
-    this.setState({ movie: movie[0] });
-  };
-
-  snackbar = (message, type, ms = 3000) => {
-    this.setState({ alert: { message, type } });
-    setTimeout(() => this.setState({ alert: null }), ms);
-  };
-
-  render() {
-    const { movies, movie, alert, loading } = this.state;
-    return (
-      <Router>
-        <Fragment>
-          <Navbar />
-          <div className="container">
-            <Switch>
-              <Route
-                exact
-                path="/"
-                render={props => (
-                  <Fragment>
-                    <Search
-                      searchMovies={this.searchMovies}
-                      setAlert={this.snackbar}
-                    />
-                    <Movies loading={loading} movies={movies} />
-                  </Fragment>
-                )}
-              />
-              <Route exact path="/about" component={About} />
-              <Route
-                exact
-                path="/movie/:title"
-                render={props => (
-                  <MovieReview
-                    {...props}
-                    getMovie={this.getMovie}
-                    movie={movie}
-                    loading={loading}
-                  />
-                )}
-              />
-              <Route component={Notfound} />
-            </Switch>
-            <Snackbar alert={alert} />
-          </div>
-        </Fragment>
-      </Router>
-    );
-  }
-}
+const App = () => {
+  return (
+    <NyTimesState>
+      <SnackbarState>
+        <Router>
+          <Fragment>
+            <Navbar />
+            <div className="container">
+              <Switch>
+                <Route exact path="/" component={Home} />
+                <Route exact path="/about" component={About} />
+                <Route exact path="/movie/:title" component={MovieReview} />
+                <Route component={Notfound} />
+              </Switch>
+              <Snackbar />
+            </div>
+          </Fragment>
+        </Router>
+      </SnackbarState>
+    </NyTimesState>
+  );
+};
 
 export default App;
