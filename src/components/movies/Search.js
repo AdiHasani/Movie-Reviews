@@ -1,49 +1,39 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import React, { useState, useContext } from 'react';
+import NyTimesContext from '../../context/nytimes/nyTimesContext';
+import SnackbarContext from '../../context/snackbar/snackbarContext';
 
-export class Search extends Component {
-  state = {
-    text: ''
-  };
+const Search = () => {
+  const nyTimesContext = useContext(NyTimesContext);
+  const snackbarContext = useContext(SnackbarContext);
 
-  static propTypes = {
-    searchMovies: PropTypes.func.isRequired,
-    setAlert: PropTypes.func.isRequired
-  };
+  const [text, setText] = useState('');
 
-  onSubmit = event => {
+  const onSubmit = event => {
     event.preventDefault();
-    if (this.state.text === '') {
-      this.props.setAlert('Please enter something', 'error');
+    if (text === '') {
+      snackbarContext.setAlert('Please enter a query', 'error');
     } else {
-      this.props.searchMovies(this.state.text);
-      this.setState({ text: '' });
+      nyTimesContext.searchMovies(text);
+      setText('');
     }
   };
 
-  onChange = event =>
-    this.setState({ [event.target.name]: event.target.value });
+  const onChange = event => setText(event.target.value);
 
-  render() {
-    return (
-      <div>
-        <form onSubmit={this.onSubmit} className="form">
-          <input
-            type="text"
-            name="text"
-            placeholder="Search Movies"
-            value={this.state.text}
-            onChange={this.onChange}
-          />
-          <input
-            className="btn btn-20 btn-search"
-            type="submit"
-            value="Search"
-          />
-        </form>
-      </div>
-    );
-  }
-}
+  return (
+    <div>
+      <form onSubmit={onSubmit} className="form">
+        <input
+          type="text"
+          name="text"
+          placeholder="Search Movies"
+          value={text}
+          onChange={onChange}
+        />
+        <input className="btn btn-20 btn-search" type="submit" value="Search" />
+      </form>
+    </div>
+  );
+};
 
 export default Search;

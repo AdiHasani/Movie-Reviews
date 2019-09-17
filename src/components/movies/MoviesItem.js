@@ -1,8 +1,8 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
-const MoviesItem = props => {
-  const { display_title, multimedia } = props.movie;
+const MoviesItem = ({ movie: { display_title, multimedia } }) => {
   return (
     <Link to={`/movie/${display_title}`}>
       <div className="card text-center">
@@ -11,10 +11,14 @@ const MoviesItem = props => {
           alt="Scene from movie"
           className="card-img"
         />
-        <h2 className="text-red mb-1">{display_title}</h2>
+        <h4 className="text-red mb-1">{display_title}</h4>
       </div>
     </Link>
   );
+};
+
+MoviesItem.propTypes = {
+  movie: PropTypes.object.isRequired
 };
 
 export default MoviesItem;

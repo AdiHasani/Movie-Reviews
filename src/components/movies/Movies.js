@@ -1,9 +1,17 @@
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
 import MovieItem from './MoviesItem';
 import Spinner from '../layout/Spinner';
-import PropTypes from 'prop-types';
+import NyTimesContext from '../../context/nytimes/nyTimesContext';
 
-const Movies = ({ movies, loading }) => {
+const Movies = () => {
+  const nyTimesContext = useContext(NyTimesContext);
+  const { getMovies, loading, movies } = nyTimesContext;
+
+  useEffect(() => {
+    getMovies();
+    // eslint-disable-next-line
+  }, []);
+
   if (loading) {
     return (
       <div className="text-center">
@@ -19,11 +27,6 @@ const Movies = ({ movies, loading }) => {
       </div>
     );
   }
-};
-
-Movies.propTypes = {
-  movies: PropTypes.array.isRequired,
-  loading: PropTypes.bool.isRequired
 };
 
 export default Movies;
