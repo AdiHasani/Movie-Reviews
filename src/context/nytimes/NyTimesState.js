@@ -5,7 +5,6 @@ import NyTimesReducer from './nyTimesReducer';
 import SnackbarContext from '../snackbar/snackbarContext';
 import { GET_MOVIES, GET_MOVIE, SEARCH_MOVIES, SET_LOADING } from '../types';
 
-<<<<<<< HEAD
 let nyTimesKey;
 
 if (process.env.NODE_ENV !== 'production') {
@@ -14,8 +13,6 @@ if (process.env.NODE_ENV !== 'production') {
   nyTimesKey = process.env.NYT_API_KEY;
 }
 
-=======
->>>>>>> 10c5e33a206221687c7446a6488c374fe69ee193
 const NyTimesState = props => {
   const initialState = {
     movies: [],
@@ -33,11 +30,7 @@ const NyTimesState = props => {
     setLoading();
 
     const res = await axios.get(
-<<<<<<< HEAD
       `https://api.nytimes.com/svc/movies/v2/reviews/{type}.json?api-key=${nyTimesKey}`
-=======
-      `https://api.nytimes.com/svc/movies/v2/reviews/{type}.json?api-key=${process.env.REACT_APP_NYT_API_KEY}`
->>>>>>> 10c5e33a206221687c7446a6488c374fe69ee193
     );
 
     dispatch({
@@ -54,11 +47,7 @@ const NyTimesState = props => {
     setLoading();
 
     const res = await axios.get(
-<<<<<<< HEAD
       `https://api.nytimes.com/svc/movies/v2/reviews/search.json?query=${text}&api-key=${nyTimesKey}`
-=======
-      `https://api.nytimes.com/svc/movies/v2/reviews/search.json?query=${text}&api-key=${process.env.REACT_APP_NYT_API_KEY}`
->>>>>>> 10c5e33a206221687c7446a6488c374fe69ee193
     );
 
     dispatch({
