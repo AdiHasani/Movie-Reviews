@@ -33,16 +33,16 @@ const MovieReview = ({ match }) => {
 
   return (
     <Fragment>
-      <div className="card grid-2 mb-2">
+      <div className="card grid-2 pyx-1 mb-2">
         <div className="text-center">
           <img
             src={multimedia ? multimedia.src : 'no-img.png'}
             alt="Sceen from movie"
-            className="img-review"
+            className="img-review "
           />
           <h2 className="text-red">{display_title}</h2>
         </div>
-        <div>
+        <div className="pyx-1">
           <h2>{headline}</h2>
           <h5>published: {publication_date}</h5>
           <h5 className="mb-2 text-red">edited: {date_updated}</h5>

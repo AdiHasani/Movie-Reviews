@@ -11,7 +11,9 @@ const MoviesItem = ({ movie: { display_title, multimedia } }) => {
           alt="Scene from movie"
           className="card-img"
         />
-        <h4 className="text-red mb-1">{display_title}</h4>
+        <div className="card-footer">
+          <h4>{display_title}</h4>
+        </div>
       </div>
     </Link>
   );

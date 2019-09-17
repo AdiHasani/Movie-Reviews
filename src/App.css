@@ -5,6 +5,7 @@
   --secondary-color: #073B4C;
   --border-color: #EF476F;
   --white-color: #fafafa;
+  --lightgrey-color: #ECECED;
   --red-color: #E82828;
   --green-color: #28a745;
 
@@ -48,6 +49,10 @@ body {
 .bg-primary {
   background-color: var(--primary-color);
   color: var(--secondary-color);
+}
+
+.pyx-1 {
+  padding: 1rem;
 }
 
 .mb-1 {
@@ -156,12 +161,21 @@ input[type='text']:focus {
 
 /* Cards */
 .card {
-  padding: 1rem;
   border: var(--border-color) 1px solid;
   border-radius: .5rem;
   margin: 0.7rem 0;
+  background-color: var(--lightgrey-color);
   box-shadow: var(--box-shadow);
+  overflow: hidden;
   transition: all .3s;
+}
+
+.card-footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 1rem;
+  height: 60px;
 }
 
 .card-img {
