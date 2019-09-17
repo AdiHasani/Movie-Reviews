@@ -5,13 +5,7 @@ import NyTimesReducer from './nyTimesReducer';
 import SnackbarContext from '../snackbar/snackbarContext';
 import { GET_MOVIES, GET_MOVIE, SEARCH_MOVIES, SET_LOADING } from '../types';
 
-let nyTimesKey;
-
-if (process.env.NODE_ENV !== 'production') {
-  nyTimesKey = process.env.REACT_APP_NYT_API_KEY;
-} else {
-  nyTimesKey = process.env.NYT_API_KEY;
-}
+let nyTimesKey = process.env.REACT_APP_NYT_API_KEY;
 
 const NyTimesState = props => {
   const initialState = {
