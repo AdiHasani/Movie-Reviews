@@ -397,6 +397,10 @@ ul {
     width: 32%
   }
 
+  .img-review {
+    width: 100%;
+  }
+
   /* Navbar */
   .navbar-container {
     max-height: 8rem;
