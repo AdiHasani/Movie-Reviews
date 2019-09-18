@@ -41,8 +41,8 @@ const NyTimesState = props => {
         type: GET_MOVIES,
         payload: res.data.results
       });
-      sessionStorage.setItem('movies', JSON.stringify(res.data.results));
-      sessionStorage.setItem('cachedMovies', JSON.stringify(res.data.results));
+      setItem('movies', res.data.results);
+      setItem('cachedMovies', res.data.results);
     }
 
     dispatch({ type: SET_FIRSTCALL });
@@ -62,13 +62,13 @@ const NyTimesState = props => {
       type: SEARCH_MOVIES,
       payload: res.data.results
     });
-    sessionStorage.setItem('movies', JSON.stringify(res.data.results));
+    setItem('movies', res.data.results);
 
     if (res.data.results.length === 0) {
       dispatch({ type: SET_NO_RESULT });
       dispatch({
         type: SEARCH_MOVIES,
-        payload: JSON.parse(sessionStorage.getItem('cachedMovies'))
+        payload: getItem('cachedMovies')
       });
     }
   };
@@ -89,12 +89,12 @@ const NyTimesState = props => {
    *****************************/
 
   const setMoviesOnClick = () => {
-    const movies = JSON.parse(sessionStorage.getItem('cachedMovies'));
+    const movies = getItem('cachedMovies');
     dispatch({
       type: GET_MOVIES,
       payload: movies
     });
-    sessionStorage.setItem('movies', JSON.stringify(movies));
+    setItem('movies', movies);
   };
 
   /**************************
@@ -110,6 +110,18 @@ const NyTimesState = props => {
    ***************************/
 
   const setLoading = () => dispatch({ type: SET_LOADING });
+
+  /*********************
+   * sessionStorage
+   *********************/
+
+  const setItem = (key, value) => {
+    sessionStorage.setItem(key, JSON.stringify(value));
+  };
+
+  const getItem = key => {
+    return JSON.parse(sessionStorage.getItem(key));
+  };
 
   return (
     <NyTimesContext.Provider
