@@ -8,7 +8,7 @@ const Movies = () => {
   const { getMovies, loading, movies } = nyTimesContext;
 
   useEffect(() => {
-    getMovies();
+      getMovies();
     // eslint-disable-next-line
   }, []);
 

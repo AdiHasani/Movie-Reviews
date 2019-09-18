@@ -1,9 +1,16 @@
-import React, { useReducer, useContext } from 'react';
+import React, { useReducer } from 'react';
 import axios from 'axios';
 import NyTimesContext from './nyTimesContext';
 import NyTimesReducer from './nyTimesReducer';
-import SnackbarContext from '../snackbar/snackbarContext';
-import { GET_MOVIES, GET_MOVIE, SEARCH_MOVIES, SET_LOADING } from '../types';
+import {
+  GET_MOVIES,
+  GET_MOVIE,
+  SEARCH_MOVIES,
+  SET_LOADING,
+  SET_NO_RESULT,
+  REMOVE_NO_RESULT,
+  SET_FIRSTCALL
+} from '../types';
 
 let nyTimesKey = process.env.REACT_APP_NYT_API_KEY;
 
@@ -11,11 +18,13 @@ const NyTimesState = props => {
   const initialState = {
     movies: [],
     movie: {},
+    cachedMovies: [],
+    firstCall: true,
+    noResult: false,
     loading: false
   };
 
   const [state, dispatch] = useReducer(NyTimesReducer, initialState);
-  const snackbarContext = useContext(SnackbarContext);
 
   /******************************
    * Get Movies Reviews
@@ -23,15 +32,20 @@ const NyTimesState = props => {
   const getMovies = async () => {
     setLoading();
 
-    const res = await axios.get(
-      `https://api.nytimes.com/svc/movies/v2/reviews/{type}.json?api-key=${nyTimesKey}`
-    );
+    if (state.firstCall) {
+      const res = await axios.get(
+        `https://api.nytimes.com/svc/movies/v2/reviews/{type}.json?api-key=${nyTimesKey}`
+      );
 
-    dispatch({
-      type: GET_MOVIES,
-      payload: res.data.results
-    });
-    sessionStorage.setItem('movies', JSON.stringify(res.data.results));
+      dispatch({
+        type: GET_MOVIES,
+        payload: res.data.results
+      });
+      sessionStorage.setItem('movies', JSON.stringify(res.data.results));
+      sessionStorage.setItem('cachedMovies', JSON.stringify(res.data.results));
+    }
+
+    dispatch({ type: SET_FIRSTCALL });
   };
 
   /******************************
@@ -51,8 +65,11 @@ const NyTimesState = props => {
     sessionStorage.setItem('movies', JSON.stringify(res.data.results));
 
     if (res.data.results.length === 0) {
-      snackbarContext.snackbar('No results found', 'success', 4000);
-      sessionStorage.removeItem('movies');
+      dispatch({ type: SET_NO_RESULT });
+      dispatch({
+        type: SEARCH_MOVIES,
+        payload: JSON.parse(sessionStorage.getItem('cachedMovies'))
+      });
     }
   };
 
@@ -60,17 +77,32 @@ const NyTimesState = props => {
    * Get Movie Review
    *******************************/
   const getMovie = title => {
-    let movies = initialState.movies;
-
-    if (sessionStorage.getItem('movies')) {
-      movies = JSON.parse(sessionStorage.getItem('movies'));
-    }
-
-    let movie = movies.filter(movie => movie.display_title === title);
+    let movie = state.movies.filter(movie => movie.display_title === title);
     dispatch({
       type: GET_MOVIE,
       payload: movie[0]
     });
+  };
+
+  /*****************************
+   *  Home button clicked
+   *****************************/
+
+  const setMoviesOnClick = () => {
+    const movies = JSON.parse(sessionStorage.getItem('cachedMovies'));
+    dispatch({
+      type: GET_MOVIES,
+      payload: movies
+    });
+    sessionStorage.setItem('movies', JSON.stringify(movies));
+  };
+
+  /**************************
+   * No results found!
+   **************************/
+
+  const removeNoResult = () => {
+    dispatch({ type: REMOVE_NO_RESULT });
   };
 
   /***************************
@@ -85,9 +117,12 @@ const NyTimesState = props => {
         movies: state.movies,
         movie: state.movie,
         loading: state.loading,
+        noResult: state.noResult,
         getMovies,
         searchMovies,
-        getMovie
+        getMovie,
+        setMoviesOnClick,
+        removeNoResult
       }}
     >
       {props.children}
