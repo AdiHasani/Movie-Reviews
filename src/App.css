@@ -37,6 +37,10 @@ body {
   overflow: scroll;
 }
 
+p:not(:last-of-type) {
+  margin-bottom: 2rem;
+}
+
 /* Utilities */
 .container {
   max-width: 1170px;
@@ -76,6 +80,10 @@ body {
 
 .text-red {
   color: var(--red-color);
+}
+
+.text-grey {
+  color: #a9a9a9;
 }
 
 .text-green {

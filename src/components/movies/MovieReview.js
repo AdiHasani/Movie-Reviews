@@ -48,7 +48,7 @@ const MovieReview = ({ match }) => {
         <div className="pyx-1">
           <h2>{headline}</h2>
           <h5>published: {publication_date}</h5>
-          <h5 className="mb-2 text-red">edited: {date_updated}</h5>
+          <h5 className="mb-2 text-grey">edited: {date_updated}</h5>
           <p className="mb-3">{summary_short}</p>
           {link && (
             <a
