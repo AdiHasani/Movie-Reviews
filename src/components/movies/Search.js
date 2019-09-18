@@ -39,7 +39,9 @@ const Search = () => {
           value={text}
           onChange={onChange}
         />
-        <input className="btn btn-20 btn-search" type="submit" value="Search" />
+        <button className="btn btn-20 btn-search" type="submit">
+          Search
+        </button>
       </form>
     </div>
   );

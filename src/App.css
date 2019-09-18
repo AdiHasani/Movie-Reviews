@@ -10,6 +10,7 @@
   --green-color: #28a745;
 
   --box-shadow: 0 1rem 0.6rem -0.6rem rgba(0, 0, 0, 0.2);
+  --box-shadow2: 0 1rem 0.6rem -0.6rem rgba(0, 0, 0, 0.4);
   --snackbar: .1rem .3rem .5rem rgba(0, 0, 0, .2);
 }
 
@@ -155,11 +156,14 @@ input[type='text'] {
   border: 1px solid var(--border-color);
   color: var(--red-color);
   border-radius: .4rem;
+  box-shadow: none;
+  transition: box-shadow .3s;
 }
 
 input[type='text']:focus {
   outline: none;
   border-color: var(--primary-color);
+  box-shadow: var(--box-shadow);
 }
 
 /* Cards */
@@ -178,7 +182,8 @@ input[type='text']:focus {
 }
 
 .card-link:focus>.card {
-  border-color: var(--primary-color);
+  box-shadow: var(--box-shadow2);
+  border-color: var(--secondary-color);
 }
 
 .card-footer {
@@ -212,14 +217,15 @@ input[type='text']:focus {
   border-radius: .4rem;
   margin-right: 0.5rem;
   outline: none;
+  border: 2px solid transparent;
 }
 
 .btn:focus {
-  border: 1px solid var(--secondary-color)
+  border: 2px solid var(--secondary-color)
 }
 
 .btn-search {
-  padding: .8rem 0;
+  padding: .6rem 0;
   color: var(--white-color);
   font-size: 1.6rem;
   text-transform: uppercase;
@@ -228,6 +234,7 @@ input[type='text']:focus {
 
 .btn-back,
 .btn-more {
+  padding: .2rem 3rem;
   background-color: var(--primary-color);
 }
 
