@@ -77,7 +77,13 @@ const NyTimesState = props => {
    * Get Movie Review
    *******************************/
   const getMovie = title => {
-    let movie = state.movies.filter(movie => movie.display_title === title);
+    let movies = initialState.movies;
+
+    if (sessionStorage.getItem('movies')) {
+      movies = JSON.parse(sessionStorage.getItem('movies'));
+    }
+
+    let movie = movies.filter(movie => movie.display_title === title);
     dispatch({
       type: GET_MOVIE,
       payload: movie[0]
