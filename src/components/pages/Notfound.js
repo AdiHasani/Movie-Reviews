@@ -5,7 +5,7 @@ const Notfound = () => {
   return (
     <div className="text-center">
       <h1>Page Not found</h1>
-      <Link class="btn btn-back" to="/">
+      <Link className="btn btn-back" to="/">
         Back to Home Page
       </Link>
     </div>

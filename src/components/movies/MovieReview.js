@@ -62,7 +62,7 @@ const MovieReview = ({ match }) => {
           )}
         </div>
       </div>
-      <div className="review-footer">
+      <div className="review-footer mt-2">
         <Link to="/" className="btn btn-back">
           Back
         </Link>

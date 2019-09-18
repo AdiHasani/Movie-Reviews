@@ -10,14 +10,14 @@ const Navbar = ({ icon, title }) => {
   return (
     <nav className="navbar bg-primary">
       <div className="navbar-container">
-        <h1>
-          <i className={icon}></i> {title}
-        </h1>
+        <Link to="/" onClick={setMoviesOnClick}>
+          <h1>
+            <i className={icon}></i> {title}
+          </h1>
+        </Link>
         <ul>
           <li>
-            <Link to="/" onClick={setMoviesOnClick}>
-              Home
-            </Link>
+            <Link to="/">Home</Link>
           </li>
           <li>
             <Link to="/about">About</Link>

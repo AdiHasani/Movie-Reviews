@@ -62,6 +62,7 @@ const NyTimesState = props => {
       type: SEARCH_MOVIES,
       payload: res.data.results
     });
+
     setItem('movies', res.data.results);
 
     if (res.data.results.length === 0) {
@@ -70,6 +71,7 @@ const NyTimesState = props => {
         type: SEARCH_MOVIES,
         payload: getItem('cachedMovies')
       });
+      setItem('movies', getItem('cachedMovies'));
     }
   };
 
@@ -77,10 +79,10 @@ const NyTimesState = props => {
    * Get Movie Review
    *******************************/
   const getMovie = title => {
-    let movies = initialState.movies;
+    let movies = state.movies;
 
-    if (sessionStorage.getItem('movies')) {
-      movies = JSON.parse(sessionStorage.getItem('movies'));
+    if (getItem('movies').length > 0) {
+      movies = getItem('movies');
     }
 
     let movie = movies.filter(movie => movie.display_title === title);

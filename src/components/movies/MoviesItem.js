@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 const MoviesItem = ({ movie: { display_title, multimedia } }) => {
   return (
-    <Link to={`/movie/${display_title}`}>
+    <Link className="card-link" to={`/movie/${display_title}`}>
       <div className="card text-center">
         <img
           src={multimedia ? multimedia.src : 'no-img.png'}
