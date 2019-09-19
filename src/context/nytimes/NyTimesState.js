@@ -42,7 +42,6 @@ const NyTimesState = props => {
         payload: res.data.results
       });
       setItem('movies', res.data.results);
-      setItem('cachedMovies', res.data.results);
     }
 
     dispatch({ type: SET_FIRSTCALL });
@@ -69,9 +68,9 @@ const NyTimesState = props => {
       dispatch({ type: SET_NO_RESULT });
       dispatch({
         type: SEARCH_MOVIES,
-        payload: getItem('cachedMovies')
+        payload: state.cachedMovies
       });
-      setItem('movies', getItem('cachedMovies'));
+      setItem('movies', state.cachedMovies);
     }
   };
 
@@ -97,7 +96,7 @@ const NyTimesState = props => {
    *****************************/
 
   const setMoviesOnClick = () => {
-    const movies = getItem('cachedMovies');
+    const movies =state.cachedMovies;
     dispatch({
       type: GET_MOVIES,
       payload: movies
