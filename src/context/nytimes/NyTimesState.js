@@ -9,7 +9,10 @@ import {
   SET_LOADING,
   SET_NO_RESULT,
   REMOVE_NO_RESULT,
-  SET_FIRSTCALL
+  SET_FIRSTCALL,
+  REMOVE_FIRSTCALL,
+  SET_SEARCHING,
+  REMOVE_SEARCHING
 } from '../types';
 
 let nyTimesKey = process.env.REACT_APP_NYT_API_KEY;
@@ -21,10 +24,15 @@ const NyTimesState = props => {
     cachedMovies: [],
     firstCall: true,
     noResult: false,
-    loading: false
+    loading: false,
+    search: false
   };
 
   const [state, dispatch] = useReducer(NyTimesReducer, initialState);
+
+  setInterval(() => {
+    dispatch({ type: REMOVE_FIRSTCALL });
+  }, 60000);
 
   /******************************
    * Get Movies Reviews
@@ -32,7 +40,8 @@ const NyTimesState = props => {
   const getMovies = async () => {
     setLoading();
 
-    if (state.firstCall) {
+    if (state.firstCall && !state.search) {
+      console.log('FETCHING from API');
       const res = await axios.get(
         `https://api.nytimes.com/svc/movies/v2/reviews/{type}.json?api-key=${nyTimesKey}`
       );
@@ -61,6 +70,7 @@ const NyTimesState = props => {
       type: SEARCH_MOVIES,
       payload: res.data.results
     });
+    dispatch({ type: SET_SEARCHING });
 
     setItem('movies', res.data.results);
 
@@ -70,6 +80,7 @@ const NyTimesState = props => {
         type: SEARCH_MOVIES,
         payload: state.cachedMovies
       });
+      dispatch({ type: REMOVE_SEARCHING });
       setItem('movies', state.cachedMovies);
     }
   };
@@ -92,15 +103,16 @@ const NyTimesState = props => {
   };
 
   /*****************************
-   *  Home button clicked
+   *  App Name clicked
    *****************************/
 
   const setMoviesOnClick = () => {
-    const movies =state.cachedMovies;
+    const movies = state.cachedMovies;
     dispatch({
       type: GET_MOVIES,
       payload: movies
     });
+    dispatch({ type: REMOVE_SEARCHING });
     setItem('movies', movies);
   };
 

@@ -5,7 +5,10 @@ import {
   GET_MOVIE,
   SET_NO_RESULT,
   REMOVE_NO_RESULT,
-  SET_FIRSTCALL
+  SET_FIRSTCALL,
+  REMOVE_FIRSTCALL,
+  SET_SEARCHING,
+  REMOVE_SEARCHING
 } from '../types';
 
 export default (state, action) => {
@@ -49,6 +52,21 @@ export default (state, action) => {
         ...state,
         firstCall: false,
         loading: false
+      };
+    case REMOVE_FIRSTCALL:
+      return {
+        ...state,
+        firstCall: true
+      };
+    case SET_SEARCHING:
+      return {
+        ...state,
+        search: true
+      };
+    case REMOVE_SEARCHING:
+      return {
+        ...state,
+        search: false
       };
     default:
       return state;
