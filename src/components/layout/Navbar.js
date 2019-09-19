@@ -5,7 +5,14 @@ import NyTimesContext from '../../context/nytimes/nyTimesContext';
 
 const Navbar = ({ icon, title }) => {
   const nyTimesContext = useContext(NyTimesContext);
-  const { setMoviesOnClick } = nyTimesContext;
+  const { setMoviesOnClick, toggleTheme, theme } = nyTimesContext;
+  const body = document.getElementsByTagName('body');
+
+  if (theme) {
+    body[0].removeAttribute('class');
+  } else {
+    body[0].classList.add('dark-theme');
+  }
 
   return (
     <nav className="navbar bg-primary">
@@ -21,6 +28,15 @@ const Navbar = ({ icon, title }) => {
           </li>
           <li>
             <Link to="/about">About</Link>
+          </li>
+          <li>
+            <Link to="#" onClick={toggleTheme}>
+              {theme ? (
+                <i className="fas fa-moon" />
+              ) : (
+                <i className="fas fa-sun" />
+              )}
+            </Link>
           </li>
         </ul>
       </div>

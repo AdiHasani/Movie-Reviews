@@ -8,7 +8,8 @@ import {
   SET_FIRSTCALL,
   REMOVE_FIRSTCALL,
   SET_SEARCHING,
-  REMOVE_SEARCHING
+  REMOVE_SEARCHING,
+  SET_THEME
 } from '../types';
 
 export default (state, action) => {
@@ -67,6 +68,11 @@ export default (state, action) => {
       return {
         ...state,
         search: false
+      };
+    case SET_THEME:
+      return {
+        ...state,
+        theme: !state.theme
       };
     default:
       return state;

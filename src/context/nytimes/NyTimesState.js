@@ -12,7 +12,8 @@ import {
   SET_FIRSTCALL,
   REMOVE_FIRSTCALL,
   SET_SEARCHING,
-  REMOVE_SEARCHING
+  REMOVE_SEARCHING,
+  SET_THEME
 } from '../types';
 
 let nyTimesKey = process.env.REACT_APP_NYT_API_KEY;
@@ -25,7 +26,8 @@ const NyTimesState = props => {
     firstCall: true,
     noResult: false,
     loading: false,
-    search: false
+    search: false,
+    theme: true
   };
 
   const [state, dispatch] = useReducer(NyTimesReducer, initialState);
@@ -124,6 +126,14 @@ const NyTimesState = props => {
     dispatch({ type: REMOVE_NO_RESULT });
   };
 
+  /************************
+   * Toggle theme
+   ************************/
+
+  const toggleTheme = () => {
+    dispatch({ type: SET_THEME });
+  };
+
   /***************************
    *  Set Loading to true
    ***************************/
@@ -149,11 +159,13 @@ const NyTimesState = props => {
         movie: state.movie,
         loading: state.loading,
         noResult: state.noResult,
+        theme: state.theme,
         getMovies,
         searchMovies,
         getMovie,
         setMoviesOnClick,
-        removeNoResult
+        removeNoResult,
+        toggleTheme
       }}
     >
       {props.children}
