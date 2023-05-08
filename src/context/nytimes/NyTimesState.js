@@ -44,7 +44,7 @@ const NyTimesState = props => {
 
     if (state.firstCall && !state.search) {
       const res = await axios.get(
-        `https://api.nytimes.com/svc/movies/v2/reviews/{type}.json?api-key=${nyTimesKey}`
+        `https://api.nytimes.com/svc/movies/v2/reviews/search.json?api-key=${nyTimesKey}`
       );
 
       dispatch({
